@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/providers/auth.dart';
 import '../utils/app_routes.dart';
 import '../providers/cart.dart';
 import '../providers/product.dart';
@@ -12,6 +13,8 @@ class ProductGridItem extends StatelessWidget {
 
     final Cart cart =
         Provider.of<Cart>(context, listen: false); //provider do carrinho
+
+    final Auth auth = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10), //coloca borda arredondada na img
@@ -30,45 +33,41 @@ class ProductGridItem extends StatelessWidget {
           ),
         ),
         footer: GridTileBar(
-          //barra com o favorito, titulo e carrinho
-          backgroundColor: Colors.black87, //cor de fundo
+          backgroundColor: Colors.black87,
           leading: Consumer<Product>(
-            //consumer na parte que vai sofrer alteração
             builder: (ctx, product, _) => IconButton(
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
-              onPressed: () {
-                product.toggleFavorite(); //função do favorito
-              },
               color: Theme.of(context).accentColor,
+              onPressed: () {
+                product.toggleFavorite(auth.token, auth.userId);
+              },
             ),
           ),
           title: Text(
-            product.title, //texto com o titulo
+            product.title,
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
-            icon: Icon(Icons.shopping_cart), //icone de carrinho
+            icon: Icon(Icons.shopping_cart),
             color: Theme.of(context).accentColor,
             onPressed: () {
-              cart.addItem(product); //add item ao carrinho
-              Scaffold.of(context)
-                  .hideCurrentSnackBar(); //esconde a snackbar atual
-              //mostra a proxima snackbar
+              Scaffold.of(context).hideCurrentSnackBar();
               Scaffold.of(context).showSnackBar(
-                //chama o scaffold pra mostrar o snackbar
                 SnackBar(
-                  content: Text('Produto adicionado com sucesso!'),
-                  duration: Duration(seconds: 2), //msg exibida por 2 segs
+                  content: Text(
+                    'Produto adicionado com sucesso!',
+                  ),
+                  duration: Duration(seconds: 2),
                   action: SnackBarAction(
-                    label: 'Desfazer',
+                    label: 'DESFAZER',
                     onPressed: () {
-                      cart.removeSingleItem(
-                          product.id); //função qnd apertar desfazer
+                      cart.removeSingleItem(product.id);
                     },
                   ),
                 ),
               );
+              cart.addItem(product);
             },
           ),
         ),

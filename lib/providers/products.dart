@@ -21,33 +21,37 @@ class Products with ChangeNotifier {
 
 //  List<Product> _items = DUMMY_PRODUCTS;
   List<Product> _items = [];
+  String _token;
+  String _userId;
 
-  bool _showFavoriteOnly = false;
+  Products([this._token, this._userId, this._items = const []]);
+
+//  bool _showFavoriteOnly = false;
 
   List<Product> get items {
-    if (_showFavoriteOnly) {
-      //se _showFavoriteOnly é vdd
-      return _items
-          .where((prod) => prod.isFavorite)
-          .toList(); //retorna apenas os produtos favs
-    }
     return [..._items]; //senão retorna a lista inteira de itens
   }
 
   //preenche a lista de produtos (_items) diretamente do firebase
   Future<void> loadProducts() async {
-    final response = await http.get('$_baseUrl.json');
+    final response = await http.get('$_baseUrl.json?auth=$_token');
     Map<String, dynamic> data = json.decode(response.body);
+
+    final favResponse = await http.get(
+        "${Constants.BASE_API_URL}/userFavorites/$_userId.json?auth=$_token");
+    final favMap = json.decode(favResponse.body);
+
     _items.clear(); //limpa a lista pra nao duplicar
     if (data != null) {
       data.forEach((productId, productData) {
+        final isFavorite = favMap == null ? false : favMap[productId] ?? false;
         _items.add(Product(
           id: productId, //pega o id que foi gerado no firebase
           title: productData['title'], //pega o title que foi gerado no firebase
           description: productData['description'],
           price: productData['price'], //pega o price que foi gerado no firebase
           imageUrl: productData['imageUrl'],
-          isFavorite: productData['isFavorite'],
+          isFavorite: isFavorite,
         ));
       });
       notifyListeners();
@@ -58,36 +62,41 @@ class Products with ChangeNotifier {
     return _items.length;
   }
 
-  //mostra apenas os favoritos
-  void showFavoriteOnly() {
-    _showFavoriteOnly = true;
-    notifyListeners(); //notifica todos os interessados qnd a mudança acontecer
+  List<Product> get favoriteItems {
+    return _items.where((prod) => prod.isFavorite).toList();
   }
 
+  //mostra apenas os favoritos
+//  void showFavoriteOnly() {
+//    _showFavoriteOnly = true;
+//    notifyListeners(); //notifica todos os interessados qnd a mudança acontecer
+//  }
+
   //mostra todos os itens
-  void showAll() {
-    _showFavoriteOnly = false;
-    notifyListeners(); //notifica todos os interessados qnd a mudança acontecer
-  }
+//  void showAll() {
+//    _showFavoriteOnly = false;
+//    notifyListeners(); //notifica todos os interessados qnd a mudança acontecer
+//  }
 
   //adicionar produto do formulário à lista
   Future<void> addProduct(Product newProduct) async {
     //url utilizada para inserir dados no backend
 
     final response = await http.post(
-      "$_baseUrl.json",
+      "$_baseUrl.json?auth=$_token",
       //usa o json encode para transformar o produto passado dentro de um map para json.
       body: json.encode({
         'title': newProduct.title,
         'description': newProduct.description,
         'price': newProduct.price,
         'imageUrl': newProduct.imageUrl,
-        'isFavorite': newProduct.isFavorite,
+        //'isFavorite': newProduct.isFavorite,
       }),
     );
 
     _items.add(Product(
-      id: json.decode(response.body)['name'], //pega o id que foi gerado no firebase
+      id: json
+          .decode(response.body)['name'], //pega o id que foi gerado no firebase
       title: newProduct.title,
       description: newProduct.description,
       price: newProduct.price,
@@ -108,7 +117,7 @@ class Products with ChangeNotifier {
     final index = _items.indexWhere((prod) => prod.id == product.id);
 
     if (index >= 0) {
-      await http.patch('$_baseUrl/${product.id}.json',
+      await http.patch('$_baseUrl/${product.id}.json?auth=$_token',
           body: json.encode(
             {
               'title': product.title,
@@ -132,7 +141,8 @@ class Products with ChangeNotifier {
       _items.remove(product);
       notifyListeners();
 
-      final response = await http.delete("$_baseUrl/${product.id}.json");
+      final response =
+          await http.delete("$_baseUrl/${product.id}.json?auth=$_token");
 
       if (response.statusCode >= 400) {
         _items.insert(index, product);

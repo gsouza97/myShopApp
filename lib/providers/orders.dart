@@ -27,6 +27,10 @@ class Orders with ChangeNotifier {
       '${Constants.BASE_API_URL}/orders'; //pra inserir, alterar, incluir
 
   List<Order> _items = [];
+  String _token;
+  String _userId;
+
+  Orders([this._token, this._userId, this._items = const[]]);
 
   List<Order> get items {
     return [..._items];
@@ -37,7 +41,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> loadOrders() async {
-    final response = await http.get('$_baseUrl.json');
+    final response = await http.get('$_baseUrl/$_userId.json?auth=$_token');
     Map<String, dynamic> data = json.decode(response.body);
     _items.clear(); //limpa a lista pra nao duplicar
     if (data != null) {
@@ -66,7 +70,7 @@ class Orders with ChangeNotifier {
 
   Future<void> addOrder(Cart cart) async {
     final response = await http.post(
-      '$_baseUrl.json',
+      '$_baseUrl/$_userId.json?auth=$_token',
       body: json.encode({
         'total': cart.totalAmount,
         'date': DateTime.now().toIso8601String(),

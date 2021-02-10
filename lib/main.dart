@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/providers/auth.dart';
+import 'package:shop/views/auth_home_screen.dart';
+import 'package:shop/views/auth_screen.dart';
 import 'package:shop/views/product_form_screen.dart';
 import 'package:shop/views/products_screen.dart';
 import './utils/app_routes.dart';
@@ -21,13 +24,26 @@ class MyApp extends StatelessWidget {
       //provider envolvendo a aplicação
       providers: [
         ChangeNotifierProvider(
-          create: (ctx) => new Products(), //cria o produto
+          create: (_) => new Auth(), //cria o auth
+        ),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (_) => new Products(),
+          update: (ctx, auth, previousProducts) => new Products(
+            auth.token,
+            auth.userId,
+            previousProducts.items,
+          ), //cria e atualiza o produto passando o token
         ),
         ChangeNotifierProvider(
-          create: (ctx) => new Cart(), //cria o carrinho
+          create: (_) => new Cart(), //cria o carrinho
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => new Orders(), //cria o pedido
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          create: (_) => new Orders(),
+          update: (ctx, auth, previousOrders) => new Orders(
+            auth.token,
+            auth.userId,
+            previousOrders.items,
+          ), //cria e atualiza o produto passando o token
         ),
       ],
       child: MaterialApp(
@@ -40,7 +56,7 @@ class MyApp extends StatelessWidget {
         ),
         //home: ProductOverviewScreen(), //  products overview passa a ser a home
         routes: {
-          AppRoutes.HOME: (ctx) => ProductOverviewScreen(),
+          AppRoutes.AUTH_OR_HOME: (ctx) => AuthOrHomeScreen(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailScreen(),
           AppRoutes.CART: (ctx) => CartScreen(),
           AppRoutes.ORDERS: (ctx) => OrdersScreen(),

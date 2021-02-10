@@ -18,6 +18,7 @@ class ProductOverviewScreen extends StatefulWidget {
 }
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+  bool _showFavoriteOnly = false;
   bool _isLoading = true;
 
   @override
@@ -42,9 +43,9 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               if (selectedValue == FilterOptions.Favorite) {
-                products.showFavoriteOnly();
+                _showFavoriteOnly = true;
               } else {
-                products.showAll();
+                _showFavoriteOnly = false;
               }
             },
             icon: Icon(Icons.more_vert),
@@ -59,12 +60,16 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               )
             ],
           ),
-          Badge(
-            //pra ficar a bolinha em cima do icone de carrinho
-            value: cart.itemsCount.toString(),
+          Consumer<Cart>(
             child: IconButton(
               icon: Icon(Icons.shopping_cart),
-              onPressed: () => Navigator.of(context).pushNamed(AppRoutes.CART),
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRoutes.CART);
+              },
+            ),
+            builder: (_, cart, child) => Badge(
+              value: cart.itemsCount.toString(),
+              child: child,
             ),
           )
         ],
@@ -73,7 +78,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : ProductGrid(),
+          : ProductGrid(_showFavoriteOnly),
       drawer: AppDrawer(),
     );
   }
