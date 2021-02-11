@@ -39,12 +39,23 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : ListView.builder(
-                itemCount: orders.itemsCount, //quantidade de pedidos realizados
-                itemBuilder: (ctx, index) => OrderWidget(
-                  orders.items[index], //pega cada pedido e passa
-                ),
-              ),
+            : orders.items.isEmpty
+                ? Center(
+                    child: Text(
+                      'Nenhum pedido adicionado',
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount:
+                        orders.itemsCount, //quantidade de pedidos realizados
+                    itemBuilder: (ctx, index) => OrderWidget(
+                      orders.items[index], //pega cada pedido e passa
+                    ),
+                  ),
       ),
     );
   }

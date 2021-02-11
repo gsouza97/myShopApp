@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/providers/orders.dart';
 import '../utils/app_routes.dart';
 import '../providers/cart.dart';
 import '../providers/products.dart';
@@ -32,13 +33,17 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
     }); //chama o carregamento dos produtos
   }
 
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).loadProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Products products = Provider.of<Products>(context);
     final Cart cart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Minha Loja'),
+        title: Text('My Shop'),
         actions: <Widget>[
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
@@ -74,11 +79,14 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           )
         ],
       ),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ProductGrid(_showFavoriteOnly),
+      body: RefreshIndicator(
+        onRefresh:  () => _refreshProducts(context),
+        child: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ProductGrid(_showFavoriteOnly),
+      ),
       drawer: AppDrawer(),
     );
   }

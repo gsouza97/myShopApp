@@ -31,18 +31,20 @@ class _CartScreenState extends State<CartScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Total',
-                    style: TextStyle(fontSize: 20),
+                    'Total:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   SizedBox(width: 10),
-                  Chip(
-                    label: Text(
-                      'R\$ ${cart.totalAmount}',
-                      style: TextStyle(
-                          color:
-                              Theme.of(context).primaryTextTheme.title.color),
+                  Text(
+                    'R\$ ${cart.totalAmount.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      color: Theme.of(context).errorColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
                     ),
-                    backgroundColor: Theme.of(context).primaryColor,
                   ),
                   Spacer(),
                   FlatButton(
