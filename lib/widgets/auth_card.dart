@@ -20,6 +20,7 @@ class _AuthCardState extends State<AuthCard> {
     'password': '',
   };
 
+
   void _showErrorDialog(String msg) {
     showDialog(
       context: context,
@@ -101,7 +102,9 @@ class _AuthCardState extends State<AuthCard> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Container(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.linearToEaseOut,
         padding: EdgeInsets.all(16),
         width: mediaQuery.width * 0.75,
         height: _authMode == AuthMode.Login ? 310 : 370,

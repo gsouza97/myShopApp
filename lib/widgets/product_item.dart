@@ -35,30 +35,29 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).errorColor,
               onPressed: () {
                 showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                          title: Text('Excluir produto'), //titulo do alerta
-                          content: Text(
-                              'Deseja realmente excluir o produto?'), //texto do alerta
-                          actions: [
-                            FlatButton(
-                              child: Text('Não'), //opção não
-                              onPressed: () {
-                                Navigator.of(ctx)
-                                    .pop(false); //nao retornar o valor
-                              },
-                            ),
-                            FlatButton(
-                              child: Text('Sim'), //opção sim
-                              onPressed: () {
-                                Navigator.of(ctx).pop(true); //retornar o valor
-                                Provider.of<Products>(context, listen: false)
-                                    .deleteProduct(
-                                        product.id); //deleta o produto
-                              },
-                            )
-                          ],
-                        ));
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: Text('Excluir produto'), //titulo do alerta
+                    content: Text(
+                        'Deseja realmente excluir o produto?'), //texto do alerta
+                    actions: [
+                      FlatButton(
+                        child: Text('Não'), //opção não
+                        onPressed: () {
+                          Navigator.of(ctx).pop(false); //nao retornar o valor
+                        },
+                      ),
+                      FlatButton(
+                        child: Text('Sim'), //opção sim
+                        onPressed: () {
+                          Navigator.of(ctx).pop(true); //retornar o valor
+                          Provider.of<Products>(context, listen: false)
+                              .deleteProduct(product.id); //deleta o produto
+                        },
+                      )
+                    ],
+                  ),
+                );
               },
             )
           ],

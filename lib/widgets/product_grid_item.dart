@@ -27,9 +27,14 @@ class ProductGridItem extends StatelessWidget {
               arguments: product, // argumento passado pra ProductDetailScreen
             );
           },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id, //pode ser qlquer nome. Colocar no destino tambem
+            // animação fade da imagem
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         footer: GridTileBar(

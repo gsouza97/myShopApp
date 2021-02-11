@@ -19,36 +19,41 @@ class AuthScreen extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 70),
-                  margin: EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.deepPurple.shade300,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.9),
-                          blurRadius: 8,
-                          offset: Offset(2, 4),
-                        )
-                      ]),
-                  child: Text(
-                    'My Shop',
-                    style: TextStyle(
-                      color: Theme.of(context).accentTextTheme.headline6.color,
-                      fontSize: 45,
-                      fontFamily: 'Anton',
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 70),
+                      margin: EdgeInsets.only(bottom: 20),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.deepPurple.shade300,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.85),
+                              blurRadius: 8,
+                              offset: Offset(2, 4),
+                            )
+                          ]),
+                      child: Text(
+                        'My Shop',
+                        style: TextStyle(
+                          color:
+                              Theme.of(context).accentTextTheme.headline6.color,
+                          fontSize: 45,
+                          fontFamily: 'Anton',
+                        ),
+                      ),
                     ),
-                  ),
+                    AuthCard(),
+                  ],
                 ),
-                AuthCard(),
-              ],
+              ),
             ),
           )
         ],
