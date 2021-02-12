@@ -80,7 +80,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh:  () => _refreshProducts(context),
+        onRefresh: () => _refreshProducts(context),
         child: _isLoading
             ? Center(
                 child: CircularProgressIndicator(),

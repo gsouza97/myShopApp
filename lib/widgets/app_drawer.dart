@@ -10,10 +10,42 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text('Bem vindo Usuário!'),
+            title: Text('My Shop App'),
             automaticallyImplyLeading: false, //tira o sanduiche
           ),
-          Divider(),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff1e3d59),
+                  Color(0xfff5f0e1),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 50,
+                  backgroundImage: AssetImage(
+                    'assets/images/default-user-image.png',
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Bem-vindo Usuário!',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
           ListTile(
             leading: Icon(Icons.shop),
             title: Text('Loja'),

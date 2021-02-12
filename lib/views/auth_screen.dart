@@ -11,8 +11,8 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(215, 117, 255, 0.5),
-                  Color.fromRGBO(215, 117, 117, 0.9),
+                  Color(0xfff5f0e1),
+                  Color(0xff1e3d59),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -28,23 +28,25 @@ class AuthScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 70),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 70),
                       margin: EdgeInsets.only(bottom: 20),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.deepPurple.shade300,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.85),
-                              blurRadius: 8,
-                              offset: Offset(2, 4),
-                            )
-                          ]),
+                        borderRadius: BorderRadius.circular(20),
+                        color: Theme.of(context).primaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.85),
+                            blurRadius: 8,
+                            offset: Offset(2, 4),
+                          )
+                        ],
+                      ),
                       child: Text(
                         'My Shop',
                         style: TextStyle(
                           color:
-                              Theme.of(context).accentTextTheme.headline6.color,
+                              Colors.white.withOpacity(0.9),
                           fontSize: 45,
                           fontFamily: 'Anton',
                         ),

@@ -63,7 +63,7 @@ class ProductGridItem extends StatelessWidget {
                   content: Text(
                     'Produto adicionado com sucesso!',
                   ),
-                  duration: Duration(seconds: 2),
+                  duration: Duration(seconds: 1),
                   action: SnackBarAction(
                     label: 'DESFAZER',
                     onPressed: () {

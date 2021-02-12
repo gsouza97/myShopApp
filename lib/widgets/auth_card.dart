@@ -20,7 +20,6 @@ class _AuthCardState extends State<AuthCard> {
     'password': '',
   };
 
-
   void _showErrorDialog(String msg) {
     showDialog(
       context: context,
@@ -104,16 +103,19 @@ class _AuthCardState extends State<AuthCard> {
       ),
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
-        curve: Curves.linearToEaseOut,
+        curve: Curves.linear,
         padding: EdgeInsets.all(16),
         width: mediaQuery.width * 0.75,
-        height: _authMode == AuthMode.Login ? 310 : 370,
+        height: _authMode == AuthMode.Login ? 315 : 375,
         child: Form(
           key: _form,
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  hintText: 'Ex: usuario@gmail.com',
+                ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value.trim().isEmpty || !value.contains('@')) {
@@ -124,7 +126,10 @@ class _AuthCardState extends State<AuthCard> {
                 onSaved: (value) => _authForm['email'] = value,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Senha'),
+                decoration: InputDecoration(
+                  labelText: 'Senha',
+                  hintText: 'Senha',
+                ),
                 obscureText: true,
                 controller: _passwordController,
                 validator: (value) {
@@ -137,7 +142,10 @@ class _AuthCardState extends State<AuthCard> {
               ),
               if (_authMode == AuthMode.Signup)
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Confirmar Senha'),
+                  decoration: InputDecoration(
+                    labelText: 'Confirmar Senha',
+                    hintText: 'Senha',
+                  ),
                   obscureText: true,
                   validator: _authMode == AuthMode.Signup
                       ? (value) {

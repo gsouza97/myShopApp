@@ -50,8 +50,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Minha Loja',
         theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.deepOrange,
+          primaryColor: Color(0xff3b4d61),
+          accentColor: Color(0xffe8d21d),
+          cardColor: Color(0xfff5f0e1),
+          canvasColor: Color(0xfff5f0e1),
           fontFamily: 'Lato',
         ),
         //home: ProductOverviewScreen(), //  products overview passa a ser a home

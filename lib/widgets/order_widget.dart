@@ -22,6 +22,7 @@ class _OrderWidgetState extends State<OrderWidget> {
       curve: Curves.linearToEaseOut,
       height: _expanded ? ((widget.order.products.length * 25.0) + 10) + 95 : 95,
       child: Card(
+        
         margin: EdgeInsets.all(10),
         child: Column(
           children: [
