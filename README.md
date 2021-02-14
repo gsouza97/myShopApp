@@ -1,16 +1,16 @@
-# myshop
+# About the App
 
-A new Flutter project.
+A fake store application usign Provider as State Management where the user can login, add items to cart and then add an order.
 
-## Getting Started
+## Technologies
 
-This project is a starting point for a Flutter application.
+- [Dart](https://flutter.dev/)
+- [Flutter](https://dart.dev/)
+- [Provider](https://pub.dev/packages/provider)
+- [Http](https://pub.dev/packages/http)
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="screenshots/Screenshot_1.png" width=230/> <img src="screenshots/Screenshot_2.png" width=230/>
+<img src="screenshots/Screenshot_3.png" width=230/> <img src="screenshots/Screenshot_4.png" width=230/>
+<img src="screenshots/Screenshot_5.png" width=230/> <img src="screenshots/Screenshot_6.png" width=230/>
