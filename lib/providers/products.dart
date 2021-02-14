@@ -1,38 +1,24 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop/utils/constants.dart';
-import 'product.dart';
-import '../data/dummy_data.dart';
 
-//http aqui porque daqui a gente consegue adicionar um produto, editar um produto,
-//deletar um produto, etc...
+import '../utils/constants.dart';
+import '../providers/product.dart';
 
-//objetivo de encapsular a lista de produtos já que é uma lista que vai ser bastante utilizada
-//changenotifier está completamente relacionado com o padrão observer
-//é um notificador de mudanças. qnd uma mudança acontece, ele vai notificar todos os interessados.
-//quando um produto for excluido da lista, ele vai notificar, assim como qnd adicionar
-// se atualiza de acordo com a mudança
 class Products with ChangeNotifier {
-  final String _baseUrl =
-      '${Constants.BASE_API_URL}/products'; //pra inserir, alterar, incluir
+  final String _baseUrl = '${Constants.BASE_API_URL}/products';
 
-//  List<Product> _items = DUMMY_PRODUCTS;
   List<Product> _items = [];
   String _token;
   String _userId;
 
   Products([this._token, this._userId, this._items = const []]);
 
-//  bool _showFavoriteOnly = false;
-
   List<Product> get items {
-    return [..._items]; //senão retorna a lista inteira de itens
+    return [..._items];
   }
 
-  //preenche a lista de produtos (_items) diretamente do firebase
   Future<void> loadProducts() async {
     final response = await http.get('$_baseUrl.json?auth=$_token');
     Map<String, dynamic> data = json.decode(response.body);
@@ -41,15 +27,15 @@ class Products with ChangeNotifier {
         "${Constants.BASE_API_URL}/userFavorites/$_userId.json?auth=$_token");
     final favMap = json.decode(favResponse.body);
 
-    _items.clear(); //limpa a lista pra nao duplicar
+    _items.clear();
     if (data != null) {
       data.forEach((productId, productData) {
         final isFavorite = favMap == null ? false : favMap[productId] ?? false;
         _items.add(Product(
-          id: productId, //pega o id que foi gerado no firebase
-          title: productData['title'], //pega o title que foi gerado no firebase
+          id: productId,
+          title: productData['title'],
           description: productData['description'],
-          price: productData['price'], //pega o price que foi gerado no firebase
+          price: productData['price'],
           imageUrl: productData['imageUrl'],
           isFavorite: isFavorite,
         ));
@@ -66,54 +52,32 @@ class Products with ChangeNotifier {
     return _items.where((prod) => prod.isFavorite).toList();
   }
 
-  //mostra apenas os favoritos
-//  void showFavoriteOnly() {
-//    _showFavoriteOnly = true;
-//    notifyListeners(); //notifica todos os interessados qnd a mudança acontecer
-//  }
-
-  //mostra todos os itens
-//  void showAll() {
-//    _showFavoriteOnly = false;
-//    notifyListeners(); //notifica todos os interessados qnd a mudança acontecer
-//  }
-
-  //adicionar produto do formulário à lista
   Future<void> addProduct(Product newProduct) async {
-    //url utilizada para inserir dados no backend
-
     final response = await http.post(
       "$_baseUrl.json?auth=$_token",
-      //usa o json encode para transformar o produto passado dentro de um map para json.
       body: json.encode({
         'title': newProduct.title,
         'description': newProduct.description,
         'price': newProduct.price,
         'imageUrl': newProduct.imageUrl,
-        //'isFavorite': newProduct.isFavorite,
       }),
     );
 
     _items.add(Product(
-      id: json
-          .decode(response.body)['name'], //pega o id que foi gerado no firebase
+      id: json.decode(response.body)['name'],
       title: newProduct.title,
       description: newProduct.description,
       price: newProduct.price,
       imageUrl: newProduct.imageUrl,
     ));
-    notifyListeners(); //notifica todos os interessados qnd a mudança acontecer
+    notifyListeners();
   }
 
   Future<void> updateProduct(Product product) async {
-    //se o produto nao estiver setado e o id nao estiver setado
-    //se o produto for nulo ou o id for nulo
     if (product == null || product.id == null) {
-      return; //nao faz nada
+      return;
     }
-    //procura o produto dentro da lista de produtos
-    //verifica se o prod (que é o parametro recebido na função) .id
-    //é igual ao product.id
+
     final index = _items.indexWhere((prod) => prod.id == product.id);
 
     if (index >= 0) {
@@ -126,17 +90,15 @@ class Products with ChangeNotifier {
               'imageUrl': product.imageUrl,
             },
           ));
-      _items[index] = product; //substitui a partir do indice o produto
+      _items[index] = product;
       notifyListeners();
     }
   }
 
   Future<void> deleteProduct(String id) async {
-    //procura o produto dentro da lista de produtos
     final index = _items.indexWhere((prod) => prod.id == id);
-    // se o produto existir
+
     if (index >= 0) {
-      //remove onde o id do produto da lista é igual ao id passado no parametro
       final product = _items[index];
       _items.remove(product);
       notifyListeners();
@@ -148,9 +110,6 @@ class Products with ChangeNotifier {
         _items.insert(index, product);
         notifyListeners();
       }
-
-//      _items.removeWhere((prod) => prod.id == id);
-
     }
   }
 }

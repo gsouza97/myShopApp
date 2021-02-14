@@ -3,7 +3,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop/exceptions/auth_exceptions.dart';
+
+import '../exceptions/auth_exceptions.dart';
 
 class Auth with ChangeNotifier {
   static const _singUpUrl =
@@ -25,10 +26,9 @@ class Auth with ChangeNotifier {
   }
 
   String get token {
-    if (_token != null && //se o token n for nulo
-        _expireDate != null && //se a data de expiração n for nulo
+    if (_token != null &&
+        _expireDate != null &&
         _expireDate.isAfter(DateTime.now())) {
-      //se a data de expiração é depois de agora
       return _token;
     } else {
       return null;

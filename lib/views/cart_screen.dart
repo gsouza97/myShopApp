@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/orders.dart';
 import '../providers/cart.dart';
 import '../widgets/cart_item_widget.dart';
@@ -15,7 +16,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final Cart cart = Provider.of<Cart>(context);
-    final cartItems = cart.items.values.toList(); //itens do carrinho
+    final cartItems = cart.items.values.toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -58,13 +59,12 @@ class _CartScreenState extends State<CartScreen> {
                             setState(() {
                               _isLoading = true;
                             });
-                            //cria um pedido com o carrinho
                             await Provider.of<Orders>(context, listen: false)
                                 .addOrder(cart);
                             setState(() {
                               _isLoading = false;
                             });
-                            cart.clear(); //limpa os pedidos do carrinho
+                            cart.clear();
                           },
                   )
                 ],
@@ -73,11 +73,11 @@ class _CartScreenState extends State<CartScreen> {
           ),
           SizedBox(height: 10),
           Expanded(
-            //ocupa o resto da tela inteira
             child: ListView.builder(
               itemCount: cart.itemsCount,
-              itemBuilder: (ctx, index) => CartItemWidget(cartItems[
-                  index]), //pega cada item da lista de itens do carrinho
+              itemBuilder: (ctx, index) => CartItemWidget(
+                cartItems[index],
+              ),
             ),
           ),
         ],

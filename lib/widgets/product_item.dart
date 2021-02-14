@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/providers/product.dart';
-import 'package:shop/providers/products.dart';
-import 'package:shop/utils/app_routes.dart';
+
+import '../utils/app_routes.dart';
+import '../providers/product.dart';
+import '../providers/products.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;
@@ -25,8 +26,8 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).primaryColor,
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  AppRoutes.PRODUCT_FORM, //navega pra rota do formulario
-                  arguments: product, //passa o produto como argumento
+                  AppRoutes.PRODUCT_FORM,
+                  arguments: product,
                 );
               },
             ),
@@ -37,22 +38,21 @@ class ProductItem extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: Text('Excluir produto'), //titulo do alerta
-                    content: Text(
-                        'Deseja realmente excluir o produto?'), //texto do alerta
+                    title: Text('Excluir produto'),
+                    content: Text('Deseja realmente excluir o produto?'),
                     actions: [
                       FlatButton(
-                        child: Text('Não'), //opção não
+                        child: Text('Não'),
                         onPressed: () {
-                          Navigator.of(ctx).pop(false); //nao retornar o valor
+                          Navigator.of(ctx).pop(false);
                         },
                       ),
                       FlatButton(
-                        child: Text('Sim'), //opção sim
+                        child: Text('Sim'),
                         onPressed: () {
-                          Navigator.of(ctx).pop(true); //retornar o valor
+                          Navigator.of(ctx).pop(true);
                           Provider.of<Products>(context, listen: false)
-                              .deleteProduct(product.id); //deleta o produto
+                              .deleteProduct(product.id);
                         },
                       )
                     ],

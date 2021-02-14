@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/providers/auth.dart';
-import '../utils/app_routes.dart';
-import '../providers/cart.dart';
+
+import '../providers/auth.dart';
 import '../providers/product.dart';
+import '../providers/cart.dart';
+import '../utils/app_routes.dart';
 
 class ProductGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Product product = Provider.of<Product>(context,
-        listen: false); //recebe o produto a partir do provider
-
-    final Cart cart =
-        Provider.of<Cart>(context, listen: false); //provider do carrinho
-
+    final Product product = Provider.of<Product>(context, listen: false);
+    final Cart cart = Provider.of<Cart>(context, listen: false);
     final Auth auth = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10), //coloca borda arredondada na img
+      borderRadius: BorderRadius.circular(10),
       child: GridTile(
         child: GestureDetector(
-          //envolvendo a imagem pra ser clicavel
           onTap: () {
             Navigator.of(context).pushNamed(
-              AppRoutes.PRODUCT_DETAIL, //rota que vai ser navegada
-              arguments: product, // argumento passado pra ProductDetailScreen
+              AppRoutes.PRODUCT_DETAIL,
+              arguments: product,
             );
           },
           child: Hero(
-            tag: product.id, //pode ser qlquer nome. Colocar no destino tambem
-            // animação fade da imagem
+            tag: product.id,
             child: FadeInImage(
               placeholder: AssetImage('assets/images/product-placeholder.png'),
               image: NetworkImage(product.imageUrl),

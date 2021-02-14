@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/providers/auth.dart';
-import 'package:shop/views/auth_screen.dart';
-import 'package:shop/views/products_overview_screen.dart';
+
+import '../providers/auth.dart';
+import '../views/auth_screen.dart';
+import '../views/products_overview_screen.dart';
 
 class AuthOrHomeScreen extends StatelessWidget {
   @override

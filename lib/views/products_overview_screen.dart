@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/providers/orders.dart';
+
 import '../utils/app_routes.dart';
 import '../providers/cart.dart';
 import '../providers/products.dart';
@@ -25,12 +25,12 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   @override
   void initState() {
     super.initState();
-    //carregar os produtos
+
     Provider.of<Products>(context, listen: false).loadProducts().then((_) {
       setState(() {
         _isLoading = false;
       });
-    }); //chama o carregamento dos produtos
+    });
   }
 
   Future<void> _refreshProducts(BuildContext context) async {
@@ -41,6 +41,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   Widget build(BuildContext context) {
     final Products products = Provider.of<Products>(context);
     final Cart cart = Provider.of<Cart>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('My Shop'),

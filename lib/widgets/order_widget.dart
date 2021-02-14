@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../providers/orders.dart';
 
 class OrderWidget extends StatefulWidget {
@@ -12,7 +13,6 @@ class OrderWidget extends StatefulWidget {
 }
 
 class _OrderWidgetState extends State<OrderWidget> {
-  //mostrar ou nao um container associado ao pedido
   bool _expanded = false;
 
   @override
@@ -20,16 +20,17 @@ class _OrderWidgetState extends State<OrderWidget> {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       curve: Curves.linearToEaseOut,
-      height: _expanded ? ((widget.order.products.length * 25.0) + 10) + 95 : 95,
+      height:
+          _expanded ? ((widget.order.products.length * 25.0) + 10) + 95 : 95,
       child: Card(
-        
         margin: EdgeInsets.all(10),
         child: Column(
           children: [
             ListTile(
               title: Text('R\$ ${widget.order.total.toStringAsFixed(2)}'),
-              subtitle: Text(DateFormat('dd/MM/yyyy hh:mm')
-                  .format(widget.order.date)), //pega a data do pedido e formata
+              subtitle: Text(
+                DateFormat('dd/MM/yyyy hh:mm').format(widget.order.date),
+              ),
               trailing: IconButton(
                 icon: Icon(Icons.expand_more),
                 onPressed: () {
@@ -39,19 +40,18 @@ class _OrderWidgetState extends State<OrderWidget> {
                 },
               ),
             ),
-             //se expandido, mostra o container
-              AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                curve: Curves.linearToEaseOut,
-                //tamanho baseado na quantidade de elementos
-                height: _expanded ? (widget.order.products.length * 25.0) + 10 : 0,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 4,
-                ),
-                child: ListView(
-                  //pega os produtos e transforma em widgets
-                  children: widget.order.products.map((product) {
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              curve: Curves.linearToEaseOut,
+              height:
+                  _expanded ? (widget.order.products.length * 25.0) + 10 : 0,
+              padding: EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 4,
+              ),
+              child: ListView(
+                children: widget.order.products.map(
+                  (product) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -71,9 +71,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                         ),
                       ],
                     );
-                  }).toList(),
-                ),
-              )
+                  },
+                ).toList(),
+              ),
+            )
           ],
         ),
       ),

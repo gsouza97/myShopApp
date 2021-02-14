@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+
 import '../providers/product.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //argumento passado via navegação
     final Product product =
         ModalRoute.of(context).settings.arguments as Product;
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.title), //titulo do produto
+        title: Text(product.title),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -18,7 +18,7 @@ class ProductDetailScreen extends StatelessWidget {
               height: 300,
               width: double.infinity,
               child: Hero(
-                tag: product.id, //tag do destino. Mesmo nome
+                tag: product.id,
                 child: Image.network(
                   product.imageUrl,
                   fit: BoxFit.cover,

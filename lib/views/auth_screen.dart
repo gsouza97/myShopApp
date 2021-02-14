@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop/widgets/auth_card.dart';
+
+import '../widgets/auth_card.dart';
 
 class AuthScreen extends StatelessWidget {
   @override
@@ -45,8 +46,7 @@ class AuthScreen extends StatelessWidget {
                       child: Text(
                         'My Shop',
                         style: TextStyle(
-                          color:
-                              Colors.white.withOpacity(0.9),
+                          color: Colors.white.withOpacity(0.9),
                           fontSize: 45,
                           fontFamily: 'Anton',
                         ),

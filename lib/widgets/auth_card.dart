@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/exceptions/auth_exceptions.dart';
-import 'package:shop/providers/auth.dart';
+
+import '../exceptions/auth_exceptions.dart';
+import '../providers/auth.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -45,7 +46,6 @@ class _AuthCardState extends State<AuthCard> {
   }
 
   Future<void> _submit() async {
-    //se não for válido
     if (!_form.currentState.validate()) {
       return;
     }

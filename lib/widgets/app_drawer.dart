@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/providers/auth.dart';
+
 import '../utils/app_routes.dart';
+import '../providers/auth.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class AppDrawer extends StatelessWidget {
         children: [
           AppBar(
             title: Text('My Shop App'),
-            automaticallyImplyLeading: false, //tira o sanduiche
+            automaticallyImplyLeading: false,
           ),
           Container(
             width: double.infinity,

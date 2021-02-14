@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-//possibilita a bolinha com a contagem de itens em cima do carrinho
 class Badge extends StatelessWidget {
   final Widget child;
   final String value;

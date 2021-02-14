@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/cart.dart';
 
 class CartItemWidget extends StatelessWidget {
@@ -10,26 +11,25 @@ class CartItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(cartItem.id), //o que vai ser removido
-      direction: DismissDirection.endToStart, //direção do movimento
+      key: ValueKey(cartItem.id),
+      direction: DismissDirection.endToStart,
       confirmDismiss: (_) {
         return showDialog(
-          //para confirmar a exclusão
           context: context,
           builder: (ctx) => AlertDialog(
-            title: Text('Tem Certeza?'), //titulo do alerta
-            content: Text('Quer remover o item do carrinho?'), //texto
+            title: Text('Tem Certeza?'),
+            content: Text('Quer remover o item do carrinho?'),
             actions: [
               FlatButton(
-                child: Text('Não'), //opção nao
+                child: Text('Não'),
                 onPressed: () {
-                  Navigator.of(ctx).pop(false); //nao retornar o valor
+                  Navigator.of(ctx).pop(false);
                 },
               ),
               FlatButton(
-                child: Text('Sim'), //opção sim
+                child: Text('Sim'),
                 onPressed: () {
-                  Navigator.of(ctx).pop(true); //retornar o valor, remove
+                  Navigator.of(ctx).pop(true);
                 },
               ),
             ],
@@ -38,18 +38,17 @@ class CartItemWidget extends StatelessWidget {
       },
       onDismissed: (direction) {
         Provider.of<Cart>(context, listen: false)
-            .removeItem(cartItem.productId); //remove o item
+            .removeItem(cartItem.productId);
       },
       background: Container(
-        //background quando arrastar
-        color: Theme.of(context).errorColor, //cor de fundo
+        color: Theme.of(context).errorColor,
         child: Icon(
-          Icons.delete, //icone de fundo
-          color: Colors.white, //cor do icone
+          Icons.delete,
+          color: Colors.white,
           size: 40,
         ),
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: 20), //espaçamento pra n ficar grudado
+        padding: EdgeInsets.only(right: 20),
         margin: EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 4,
@@ -77,7 +76,8 @@ class CartItemWidget extends StatelessWidget {
               cartItem.title,
             ),
             subtitle: Text(
-                'Total: R\$ ${(cartItem.price * cartItem.quantity).toStringAsFixed(2)}'),
+              'Total: R\$ ${(cartItem.price * cartItem.quantity).toStringAsFixed(2)}',
+            ),
             trailing: Text('${cartItem.quantity}x'),
           ),
         ),

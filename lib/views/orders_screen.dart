@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/orders.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/order_widget.dart';
@@ -51,9 +52,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   )
                 : ListView.builder(
                     itemCount:
-                        orders.itemsCount, //quantidade de pedidos realizados
+                        orders.itemsCount,
                     itemBuilder: (ctx, index) => OrderWidget(
-                      orders.items[index], //pega cada pedido e passa
+                      orders.items[index],
                     ),
                   ),
       ),

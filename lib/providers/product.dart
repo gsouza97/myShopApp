@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop/utils/constants.dart';
+
+import '../utils/constants.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -22,9 +23,8 @@ class Product with ChangeNotifier {
   });
 
   void _toggleFavorite() {
-    //alterna entre marcar favorito e desmarcar
-    isFavorite = !isFavorite; //vdd passa a ser falso e falso passa a ser vdd
-    notifyListeners(); //notifica todos os interessados qnd muda
+    isFavorite = !isFavorite;
+    notifyListeners();
   }
 
   Future<void> toggleFavorite(String token, String userId) async {

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/providers/auth.dart';
-import 'package:shop/views/auth_home_screen.dart';
-import 'package:shop/views/auth_screen.dart';
-import 'package:shop/views/product_form_screen.dart';
-import 'package:shop/views/products_screen.dart';
+
 import './utils/app_routes.dart';
+import './providers/auth.dart';
 import './providers/cart.dart';
 import './providers/orders.dart';
 import './providers/products.dart';
+import './views/auth_home_screen.dart';
+import './views/product_form_screen.dart';
+import './views/products_screen.dart';
 import './views/cart_screen.dart';
 import './views/orders_screen.dart';
 import './views/product_detail_screen.dart';
-import './views/products_overview_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,11 +19,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      //cria o changenotifier (provider). Multi pq são multiplos providers
-      //provider envolvendo a aplicação
       providers: [
         ChangeNotifierProvider(
-          create: (_) => new Auth(), //cria o auth
+          create: (_) => new Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, Products>(
           create: (_) => new Products(),
@@ -32,10 +29,10 @@ class MyApp extends StatelessWidget {
             auth.token,
             auth.userId,
             previousProducts.items,
-          ), //cria e atualiza o produto passando o token
+          ),
         ),
         ChangeNotifierProvider(
-          create: (_) => new Cart(), //cria o carrinho
+          create: (_) => new Cart(),
         ),
         ChangeNotifierProxyProvider<Auth, Orders>(
           create: (_) => new Orders(),
@@ -43,7 +40,7 @@ class MyApp extends StatelessWidget {
             auth.token,
             auth.userId,
             previousOrders.items,
-          ), //cria e atualiza o produto passando o token
+          ),
         ),
       ],
       child: MaterialApp(
@@ -56,7 +53,6 @@ class MyApp extends StatelessWidget {
           canvasColor: Color(0xfff5f0e1),
           fontFamily: 'Lato',
         ),
-        //home: ProductOverviewScreen(), //  products overview passa a ser a home
         routes: {
           AppRoutes.AUTH_OR_HOME: (ctx) => AuthOrHomeScreen(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailScreen(),

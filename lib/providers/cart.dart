@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'product.dart';
 
-// como as classes tao muito ligadas entre si, coloquei no msm arquivo
 class CartItem {
   final String id;
   final String productId;
@@ -22,78 +21,68 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  Map<String, CartItem> _items = {}; //chave é o string id, valor é o cartitem
+  Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
-    return {..._items}; //retornando um map clonado
+    return {..._items};
   }
 
   int get itemsCount {
-    return _items.length; //mostrar a quantidade de itens no carrinho
+    return _items.length;
   }
 
   double get totalAmount {
     double total = 0.0;
     _items.forEach((key, cartItem) {
-      //pega cada um dos itens
       total += cartItem.price * cartItem.quantity;
-      //pega o preço de cada item e multiplica pela quantidade
     });
     return total;
   }
 
   void addItem(Product product) {
     if (_items.containsKey(product.id)) {
-      //se ja contem o item
       _items.update(
         product.id,
         (existingItem) {
-          //atualiza o item adicionando mais um
           return CartItem(
-            id: existingItem.id, //retorna o mesmo id
-            productId: existingItem.id, //retorna o id do produto
-            title: existingItem.title, //retorna o mesmo preço
-            quantity: existingItem.quantity + 1, //adiciona mais um
+            id: existingItem.id,
+            productId: existingItem.id,
+            title: existingItem.title,
+            quantity: existingItem.quantity + 1,
             price: existingItem.price,
           );
         },
       );
     } else {
       _items.putIfAbsent(product.id, () {
-        //incluir se não tiver presente
         return CartItem(
-          //retorna um novo produto
-          id: Random().nextDouble().toString(), //adiciona com um id randomico
+          id: Random().nextDouble().toString(),
           productId: product.id,
-          title: product.title, //adiciona o titulo do produto
-          quantity: 1, //adiciona 1 quantidade
-          price: product.price, //adiciona o preço do produto
+          title: product.title,
+          quantity: 1,
+          price: product.price,
         );
       });
     }
-    notifyListeners(); //notifica os ouvintes
+    notifyListeners();
   }
 
   void removeSingleItem(productId) {
-    // se nao tiver dentro dos items nao tiver productId
-    // ou seja, tentando remover um prod que n tá presente
     if (!_items.containsKey(productId)) {
-      return; //só sai do metodo. n faz nada
+      return;
     }
-    // se os itens tem qntidade igual a 1
+
     if (_items[productId].quantity == 1) {
-      _items.remove(productId); //  remove o produto
-      // caso contrário
+      _items.remove(productId);
     } else {
-      //atualiza o produto existente
       _items.update(
         productId,
         (existingItem) => CartItem(
-          id: existingItem.id, //mesmo id
-          productId: existingItem.productId, // mesmo productId
-          title: existingItem.title, //mesmo titulo
-          quantity: existingItem.quantity - 1, //qnt atual menos 1
-          price: existingItem.price, //mesmo preço
+          id: existingItem.id,
+          productId: existingItem.productId,
+          title: existingItem.title,
+          quantity: existingItem.quantity - 1,
+          price: existingItem.price,
         ),
       );
     }
@@ -101,7 +90,6 @@ class Cart with ChangeNotifier {
   }
 
   void removeItem(String productId) {
-    //remove o produto baseado na chave que é o id do produto
     _items.remove(productId);
     notifyListeners();
   }

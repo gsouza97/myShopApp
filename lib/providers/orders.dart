@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop/utils/constants.dart';
+
+import '../utils/constants.dart';
 import '../providers/cart.dart';
 
-// um único produto do pedido
 class Order {
   final String id;
   final double total;
@@ -21,16 +20,14 @@ class Order {
   });
 }
 
-//pedido
 class Orders with ChangeNotifier {
-  final String _baseUrl =
-      '${Constants.BASE_API_URL}/orders'; //pra inserir, alterar, incluir
+  final String _baseUrl = '${Constants.BASE_API_URL}/orders';
 
   List<Order> _items = [];
   String _token;
   String _userId;
 
-  Orders([this._token, this._userId, this._items = const[]]);
+  Orders([this._token, this._userId, this._items = const []]);
 
   List<Order> get items {
     return [..._items];
@@ -43,7 +40,7 @@ class Orders with ChangeNotifier {
   Future<void> loadOrders() async {
     final response = await http.get('$_baseUrl/$_userId.json?auth=$_token');
     Map<String, dynamic> data = json.decode(response.body);
-    _items.clear(); //limpa a lista pra nao duplicar
+    _items.clear();
     if (data != null) {
       data.forEach((orderId, orderData) {
         _items.add(
@@ -65,7 +62,7 @@ class Orders with ChangeNotifier {
       });
       notifyListeners();
     }
-    _items = _items.reversed.toList(); //colocar os mais recentes primeiro
+    _items = _items.reversed.toList();
   }
 
   Future<void> addOrder(Cart cart) async {
