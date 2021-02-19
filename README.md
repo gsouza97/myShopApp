@@ -8,6 +8,7 @@ A fake store application usign Provider as State Management where the user can l
 - [Flutter](https://dart.dev/)
 - [Provider](https://pub.dev/packages/provider)
 - [Http](https://pub.dev/packages/http)
+- [Firebase](https://firebase.google.com/)
 
 ## Screenshots
 
